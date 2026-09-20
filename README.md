@@ -1,2 +1,2 @@
 # OptiBalsa
-Sistema para optimizar regadío con balsa. z
+Sistema para optimizar regadío con balsa.
