@@ -33,7 +33,7 @@ Su uso cotidiano se basa principalmente en la gestión temporal de su capacidad,
 
 [Cliente](/media/Cliente.jpeg)
 [Desarrollador](/media/Desarrollador.jpeg)
-
+[Configuración del repositorio](docs/configuracion.md)
 
 
 
