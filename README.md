@@ -21,7 +21,7 @@ Con este sistema se busca la optimalidad de las horas de riego en balsa en virtu
 
 # Datos y aproximación del problema 
 
-El uso de datos meteorológicos será de especial utilidad respecto a determinar la climatología, influyente en la determinación de la frecuencia y tiempo de riego. Para es posible hacer uso de  web climatológica que revele datos relevantes como humedad e información de precipitaciones, tal como la Red de Información Agroclimática de Andalucía (RIA).
+El uso de datos meteorológicos será de especial utilidad respecto a determinar la climatología, influyente en la determinación de la frecuencia y tiempo de riego. Para eso es posible  hacer uso de una web climatológica que revele datos relevantes como humedad e información de precipitaciones, tal como la Red de Información Agroclimática de Andalucía (RIA), con el fin de extraer los datos para su análisis.
 
 El mecanismo del goteo de la balsa, canales y presión queda completamente delegado a la construcción de la misma, en definitiva, las héctareas de terreno, tipo exacto de cultivo o litro por segundo no son parámetros relevantes. 
 
