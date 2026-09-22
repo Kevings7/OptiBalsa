@@ -27,6 +27,9 @@ El mecanismo del goteo de la balsa, canales y presión queda completamente deleg
 
 Su uso cotidiano se basa principalmente en la gestión temporal de su capacidad, objetivo de este problema.
 
+Analizar la información disponible del entorno, especialmente la climatológica, resultará vital para hacer una inferencia acerca del uso de la balsa. 
+
+
 
 # Enlace a imágenes relativas a la docencia. 
 
