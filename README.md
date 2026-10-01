@@ -29,6 +29,30 @@ Su uso cotidiano se basa principalmente en la gestión temporal de su capacidad,
 
 Analizar la información disponible del entorno, especialmente la climatológica, resultará vital para hacer una inferencia acerca del uso de la balsa. 
 
+# Abordando el proyecto
+
+Se han añadido las primeras Historias de Usuario al proyecto junto a los primeros Milestones.
+
+[Ver información relativa.](#enlaces-de-interés-al-desarrollo)
+
+# Decisiones considerables.
+
+Para la modelización se usará una metodología DDD, por su abordamiento desde el dominio del problema ante uno tan difuso. Posteriormente se refinará con reglas mediante Example Mapping, algo que cobra especial interés con las historias de usuario sobre las que ya hemos trabajados, pero para ello debemos haber abordado el problema de una manera general. 
+
+
+# Enlaces de interés al desarrollo.
+
+A continuación se añaden enlaces a las HUs para comprender el desarrollo. 
+
+[Historias de Usuario](docs/historias-de-usuario.md)
+
+Enlace a la UserJourney
+
+[UserJourney](docs/user-journeys.md)
+
+Enlace a los Milestones
+
+[Milestone](docs/milestones.md)
 
 
 # Enlace a imágenes relativas a la docencia. 
@@ -37,6 +61,12 @@ Analizar la información disponible del entorno, especialmente la climatológica
 [Cliente](/media/Cliente.jpeg)
 [Desarrollador](/media/Desarrollador.jpeg)
 [Configuración del repositorio](docs/configuracion.md)
+
+
+
+
+
+
 
 
 
