@@ -29,6 +29,26 @@ Su uso cotidiano se basa principalmente en la gestión temporal de su capacidad,
 
 Analizar la información disponible del entorno, especialmente la climatológica, resultará vital para hacer una inferencia acerca del uso de la balsa. 
 
+Para realizar la metodología DDD se deberán disponer de datos de expertos. 
+Tras consulta, me han derivado a fuentes de información como las siguientes proporcionadas: 
+
+https://www.rainbird.com/es/agencia/consejos-de-diseno-de-riego-necesidades-climaticas-y-de-riego
+
+https://redivia.gva.es/bitstream/handle/20.500.11939/5864/2017_Esteban_Agrometereolog%C3%ADa.pdf?sequence=1&isAllowed=y
+
+
+La obtención de datos climatológicos estructurados se pueden obtener de las siguientes fuentes: 
+
+https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/datosabiertos (Datos históricos)
+
+https://open-meteo.com/ (Predicciones)
+
+https://www.aemet.es/es/datos_abiertos/catalogo (Predicciones)
+
+La decisión e implementación de los mismos para la heurística(*) del mismo serán decisión del programador a partir del M1. 
+
+(*) Heurística se plantea para aclarar la lógica de negocio con fines educativos. La implementación de la misma dependería de la decisión del programador cuando plantee el problema. 
+
 # Abordando el proyecto
 
 Se han añadido las primeras Historias de Usuario al proyecto junto a los primeros Milestones.
@@ -37,8 +57,9 @@ Se han añadido las primeras Historias de Usuario al proyecto junto a los primer
 
 # Decisiones considerables.
 
-Para la modelización se usará una metodología DDD, por su abordamiento desde el dominio del problema ante uno tan difuso. Posteriormente se refinará con reglas mediante Example Mapping, algo que cobra especial interés con las historias de usuario sobre las que ya hemos trabajados, pero para ello debemos haber abordado el problema de una manera general. 
+Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema ante uno tan difuso. Posteriormente se refinará con reglas mediante Example Mapping, algo que cobra especial interés con las historias de usuario sobre las que ya hemos trabajado, pero para ello debemos haber abordado el problema de una manera general. 
 
+La resolución de los beneficios de la HU001 resulta previa pues la misma nos permite comenzar a formular la lógica de negocio para el M1. 
 
 # Enlaces de interés al desarrollo.
 
