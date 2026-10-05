@@ -73,7 +73,7 @@ Enlace a la UserJourney
 
 Enlace a los Milestones
 
-[Milestone](docs/milestoneshitos.md)
+[Milestone](docs/hitosmilestones.md)
 
 
 # Enlace a imágenes relativas a la docencia. 
