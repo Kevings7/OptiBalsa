@@ -1,4 +1,6 @@
-Milestone 0: Modelización inicial.
+A continuación se plantean los Milestones requeridos para el desarrollo;
+
+## Milestone 0: Modelización inicial.
 
 Se realizará un modelizado usando DDD a raíz de la HU001 con el objetivo de tener un modelado inicial codificado.
 
@@ -7,7 +9,7 @@ Será válido si se ha seguido la metodología DDD de manera acorde a la misma, 
 Con ello tendremos un PMV , manifestado como código donde se encontrarán todos los aspectos que resuelven el beneficio del cliente de la HU001. 
 
 
-Milestone 1: Lógica de Negocio.
+## Milestone 1: Lógica de Negocio.
 
 A partir de la modelización inicial conseguida con DDD en base a la HU001, se implementa una lógica de negocio acorde a la HU002.
 
