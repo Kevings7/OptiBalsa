@@ -60,7 +60,7 @@ Se han añadido las primeras Historias de Usuario al proyecto junto a los primer
 
 # Decisiones considerables.
 
-Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema ante uno tan difuso. Posteriormente se refinará con reglas mediante Example Mapping, algo que cobra especial interés con las historias de usuario sobre las que ya hemos trabajado, pero para ello debemos haber abordado el problema de una manera general. 
+Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema. Para ello se pueden consultar la información de expertos de cara al desarrollo en [información relativa](#datos-relativos-al-problema) . 
 
 # Enlaces de interés al desarrollo.
 
