@@ -19,7 +19,7 @@ Saber cuándo regar es vital para evitar perder el cultivo y mantener su máxima
 
 Con este sistema se busca la optimalidad de las horas de riego en balsa en virtud de aprovechar al máximo su capacidad. Con la información proporcionada el agricultor conocerá la gestión de su riego para usarlo de manera provechosa.  
 
-# Datos y aproximación del problema 
+# Breve proximación del problema 
 
 El uso de datos meteorológicos será de especial utilidad respecto a determinar la climatología, influyente en la determinación de la frecuencia y tiempo de riego. Para eso es posible  hacer uso de una web climatológica que revele datos relevantes como humedad e información de precipitaciones, tal como la Red de Información Agroclimática de Andalucía (RIA), con el fin de extraer los datos para su análisis.
 
@@ -29,8 +29,11 @@ Su uso cotidiano se basa principalmente en la gestión temporal de su capacidad,
 
 Analizar la información disponible del entorno, especialmente la climatológica, resultará vital para hacer una inferencia acerca del uso de la balsa. 
 
-Para realizar la metodología DDD se deberán disponer de datos de expertos. 
-Tras consulta, me han derivado a fuentes de información como las siguientes proporcionadas: 
+Para realizar la metodología DDD se deberán disponer de datos de expertos especificados en el siguiente apartado.
+
+# Datos relativos al problema. 
+
+Tras la consulta de expertos, se han derivado a las siguientes fuentes de información.  
 
 https://www.rainbird.com/es/agencia/consejos-de-diseno-de-riego-necesidades-climaticas-y-de-riego
 
