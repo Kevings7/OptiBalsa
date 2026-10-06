@@ -13,6 +13,6 @@ Con ello tendremos un PMV , manifestado como código, donde tendremos una repres
 
 A partir de la modelización inicial conseguida con DDD en base a la HU001, se implementa una lógica de negocio acorde a la HU002.
 
-Será viable si la lógica de negocio contiene la infraestructura necesaria aportando los beneficios pertinentes a los clientes de la HU, aprobando además los test automáticos.
+Será viable si la lógica de negocio contiene la infraestructura necesaria aportando los beneficios pertinentes a los clientes de la HU, cumpliendo así mismo la validación de los Outputs en los test automáticos. 
 
 Con ello se entregará un PMV donde encontraremos una lógica de negocio estructurada. 
