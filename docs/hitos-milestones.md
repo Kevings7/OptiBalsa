@@ -6,7 +6,7 @@ Se realizará un modelizado usando DDD a raíz de la HU001 con el objetivo de te
 
 Será válido si se ha seguido la metodología DDD de manera acorde a la misma, dando lugar a un modelo mínimo del problema a partir de la historia de usuario. 
 
-Con ello tendremos un PMV , manifestado como código donde se encontrarán todos los aspectos que resuelven el beneficio del cliente de la HU001. 
+Con ello tendremos un PMV , manifestado como código, donde tendremos una representación lógica de los elementos del dominio y las relaciones existentes entre ellos.
 
 
 ## Milestone 1: Lógica de Negocio.
