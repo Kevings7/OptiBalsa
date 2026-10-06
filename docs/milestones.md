@@ -11,8 +11,8 @@ Con ello tendremos un PMV , manifestado como código, donde tendremos una repres
 
 ## Milestone 1: Lógica de Negocio.
 
-Se implementa una lógica de negocio acorde a la modelización inicial obtenida en el hito anterior. 
+Se implementa la infraestructura de una lógica de negocio acorde a la modelización inicial obtenida en el hito anterior. 
 
-Será viable si la lógica de negocio contiene la infraestructura necesaria, cumpliendo la validación de los Outputs en los test automáticos. 
+Será viable si se cumple la validación de los Outputs en los test automáticos. 
 
 Con ello se entregará un PMV donde encontraremos una lógica de negocio estructurada. 
