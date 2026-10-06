@@ -13,6 +13,6 @@ Con ello tendremos un PMV , manifestado como código, donde tendremos una repres
 
 Se implementa una lógica de negocio acorde a la modelización inicial obtenida en el hito anterior. 
 
-Será viable si la lógica de negocio contiene la infraestructura necesaria aportando los beneficios pertinentes a los clientes de la HU, cumpliendo así mismo la validación de los Outputs en los test automáticos. 
+Será viable si la lógica de negocio contiene la infraestructura necesaria, cumpliendo la validación de los Outputs en los test automáticos. 
 
 Con ello se entregará un PMV donde encontraremos una lógica de negocio estructurada. 

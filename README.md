@@ -62,8 +62,6 @@ Se han añadido las primeras Historias de Usuario al proyecto junto a los primer
 
 Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema ante uno tan difuso. Posteriormente se refinará con reglas mediante Example Mapping, algo que cobra especial interés con las historias de usuario sobre las que ya hemos trabajado, pero para ello debemos haber abordado el problema de una manera general. 
 
-La resolución de los beneficios de la HU001 resulta previa pues la misma nos permite comenzar a formular la lógica de negocio para el M1. 
-
 # Enlaces de interés al desarrollo.
 
 A continuación se añaden enlaces a las HUs para comprender el desarrollo. 
@@ -76,7 +74,11 @@ Enlace a la UserJourney
 
 Enlace a los Milestones
 
-[Milestone](docs/hitos-milestones.md)
+[Milestone](docs/milestones.md)
+
+Enlace a descripción de las personas. 
+
+[Personas](docs/personas.md)
 
 
 # Enlace a imágenes relativas a la docencia. 
