@@ -31,26 +31,48 @@ Analizar la información disponible del entorno, especialmente la climatológica
 
 Para realizar la metodología DDD se deberán disponer de datos de expertos especificados en el siguiente apartado.
 
-# Datos relativos al problema. 
+# Datos y conocimiento del dominio
 
-Tras la consulta de expertos, se han derivado a las siguientes fuentes de información.  
+Para abordar el problema se tendrán en cuenta tanto datos propios de la explotación como información meteorológica externa  y conocimiento relativo al riego, que se mencionarán a continuación.
 
-https://www.rainbird.com/es/agencia/consejos-de-diseno-de-riego-necesidades-climaticas-y-de-riego
+Los datos a extraer se encuentran estructurados en formato CSV.
 
-https://redivia.gva.es/bitstream/handle/20.500.11939/5864/2017_Esteban_Agrometereolog%C3%ADa.pdf?sequence=1&isAllowed=y
+# Datos meteorológicos
+
+Los principales factores climatológicos considerados son:
+
+- **Temperatura:** temperaturas elevadas tienden a aumentar la demanda hídrica del cultivo.
+- **Humedad relativa:** una humedad baja favorece una mayor pérdida de agua, mientras que valores altos reducen esa demanda.
+- **Viento:** puede incrementar la pérdida de agua por evapotranspiración.
+- **Radiación solar:** una mayor radiación aumenta la energía disponible para la evapotranspiración.
+- **Precipitación:** disminuye la necesidad de aportar agua mediante riego.
+- **Evapotranspiración de referencia (ETo):** permite representar de forma conjunta el efecto de varios factores meteorológicos sobre la demanda de agua.
+
+Estos datos se obtendrán de una fuente meteorológica estructurada (datos en CSV), indicando para cada dato su procedencia y formato. La Red de Información Agroclimática de Andalucía (RIA)  proporciona, entre otros, datos de temperatura, humedad, viento, radiación, precipitación y evapotranspiración de referencia. 
+
+https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/
+
+https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/estacion/23/2
+
+https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/estacion/18/1
 
 
-La obtención de datos climatológicos estructurados se pueden obtener de las siguientes fuentes: 
+# Factores propios de la explotación
 
-https://www.juntadeandalucia.es/agriculturaypesca/ifapa/riaweb/web/datosabiertos (Datos históricos)
+Además de las condiciones meteorológicas, la decisión de riego depende de factores propios del problema:
 
-https://open-meteo.com/ (Predicciones)
+- **Porcentaje de agua disponible en la balsa:** limita el agua que puede utilizarse.
+- **Tiempo restante hasta la siguiente recarga:** condiciona cuánto agua puede emplearse sin comprometer el cultivo. 
 
-https://www.aemet.es/es/datos_abiertos/catalogo (Predicciones)
+Datos obtenidos en el propio problema. 
 
-La decisión e implementación de los mismos para la heurística(*) del mismo serán decisión del programador a partir del M1. 
+# Reglas prácticas utilizadas en el riego
 
-(*) Heurística se plantea para aclarar la lógica de negocio con fines educativos. La implementación de la misma dependería de la decisión del programador cuando plantee el problema. 
+A partir de la experiencia de Juan se tienen en cuenta las siguientes reglas:
+
+- Cuando ha habido precipitaciones recientes, reduce el porcentaje de reserva destinado al riego.
+- Evita agotar una parte excesiva de la reserva en un único riego cuando todavía quedan varios días hasta la siguiente recarga.
+
 
 # Abordando el proyecto
 
@@ -60,7 +82,7 @@ Se han añadido las primeras Historias de Usuario al proyecto junto a los primer
 
 # Decisiones considerables.
 
-Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema. Para ello se pueden consultar la información de expertos de cara al desarrollo en [información relativa](#datos-relativos-al-problema) . 
+Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema. Para ello se pueden consultar la información de expertos de cara al desarrollo en [información relativa](#datos-y-conocimiento-del-dominio). 
 
 # Enlaces de interés al desarrollo.
 
