@@ -2,6 +2,8 @@ package riego
 
 const DiasEntreRecargas = 14
 
+type porcentajeRiego float64
+
 type PlanDistribucion struct {
-	asignaciones [DiasEntreRecargas]AsignacionDiaria
+	asignaciones [DiasEntreRecargas]porcentajeRiego
 }
