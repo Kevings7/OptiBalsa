@@ -1,5 +1,5 @@
 lenguaje: go
-entidad: todavia/na
+entidad: todavia/na 
 
 automatizar:
   fichero: Makefile
