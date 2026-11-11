@@ -95,6 +95,25 @@ segundos por ejecución.
 
 ## Elección
 
-La elección de la herramienta se realizará en un commit posterior a estas
-mediciones, utilizando los resultados obtenidos y los criterios establecidos
-previamente.
+A partir de las mediciones realizadas se elige **GNU Make** como gestor de
+tareas del proyecto.
+
+En el entorno utilizado para las pruebas, Make ya estaba disponible, mientras
+que Just y Task necesitaron una instalación adicional. Además, el binario de
+Make utilizado ocupa aproximadamente 0,29 MB, frente a los 65,0 MB de Just y
+52,4 MB de Task.
+
+En tiempo de ejecución no se ha observado una diferencia significativa entre
+Make y Just con la resolución utilizada: ambos ejecutan la tarea prácticamente
+de forma inmediata. Task mostró aproximadamente 0,05 segundos por ejecución.
+
+Para OptiBalsa se prioriza reducir las herramientas adicionales necesarias de
+cara a futuros entornos de CI y contenedores. Por ello, los resultados obtenidos
+favorecen a Make sin que se observe una penalización relevante en el tiempo de
+ejecución.
+
+Como coste de esta decisión, la sintaxis de un `Makefile` es más estricta y
+menos específica para Go que otras alternativas. Además, que Make estuviera
+disponible en el entorno de pruebas no implica que esté instalado en todas las
+imágenes o sistemas futuros, por lo que esa dependencia deberá tenerse en cuenta
+al preparar dichos entornos.
