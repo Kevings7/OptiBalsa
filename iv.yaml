@@ -1,0 +1,6 @@
+lenguaje: go
+entidad: todavia/na
+
+automatizar:
+  fichero: Makefile
+  orden: make
