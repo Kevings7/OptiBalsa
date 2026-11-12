@@ -22,7 +22,7 @@ func (e ErrorValorClimatico) Error() string {
 	return fmt.Sprintf("la variable %s no puede ser negativa (valor aportado: %.2f)", e.Variable, e.Valor)
 }
 
-type RegistroClimatico struct {
+type RegistroClimatico  struct {
 	fecha         time.Time
 	temperatura   float64
 	humedad       float64
