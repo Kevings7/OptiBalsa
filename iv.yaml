@@ -1,2 +1,2 @@
 lenguaje: go
-entidad: internal/riego/balsa.go
+entidad: internal/riego/planificador_riego.go
