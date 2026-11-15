@@ -1,9 +1,6 @@
 package riego
 
-import (
-	"fmt"
-	"time"
-)
+import "fmt"
 
 type ErrorHumedad struct {
 	Humedad float64
@@ -23,7 +20,6 @@ func (e ErrorValorClimatico) Error() string {
 }
 
 type RegistroClimatico  struct {
-	fecha         time.Time
 	temperatura   float64
 	humedad       float64
 	viento        float64
