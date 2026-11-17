@@ -20,7 +20,7 @@ Los criterios utilizados son los siguientes:
 
 ### Coste de instalación
 
-Se medirá el tiempo necesario para disponer de cada gestor de tareas en un entorno en el que no esté instalado previamente.
+Se tendrá en cuenta el tiempo necesario para disponer de cada gestor de tareas en el entorno utilizado para las pruebas.
 
 Además del tiempo, se comprobará el tamaño que ocupa la herramienta instalada. Esto permite estimar el coste adicional que introduciría en futuros entornos de CI o contenedores.
 
@@ -135,7 +135,7 @@ El mismo procedimiento se ha utilizado para Just y Task, de forma que ambas herr
 En la máquina utilizada, Just ha necesitado 2.33 segundos para quedar disponible y Task 3.49 segundos. Estos tiempos dependen también de la conexión de red utilizada en ese momento, en este caso la red de la universidad, por lo que se toman como una referencia del coste de preparación y no como un valor absoluto.
 
 
-### Gestión de dependencias
+## Gestión de dependencias
 
 Para gestionar las dependencias del proyecto se ha utilizado Go Modules, que forma parte de las herramientas estándar de Go. De esta forma no ha sido necesario añadir un gestor de dependencias externo al proyecto.
 
@@ -173,3 +173,43 @@ De esta forma, Go Modules sigue siendo el encargado de gestionar las dependencia
 ![Comprobación de las dependencias actuales del proyecto](img/dependencias-go-modules.png)
 
 En el estado actual del proyecto no tiene demasiado sentido comparar tiempos de descarga de dependencias con y sin caché, ya que no existe ninguna dependencia externa que descargar. Cuando el proyecto incorpore dependencias, `go mod download` seguirá siendo la operación utilizada por la tarea de instalación.
+
+### Tiempo de ejecución de la compilación
+
+Para comprobar si el gestor de tareas introduce una diferencia apreciable al ejecutar una tarea real del proyecto, se ha medido el tiempo necesario para lanzar la comprobación de compilación.
+
+Los tres gestores han ejecutado exactamente la misma orden:
+
+`go build ./...`
+
+#### Ejecución sin caché
+
+Antes de cada medición se ha utilizado `go clean -cache`, de forma que ninguno de los gestores pueda aprovechar la caché de compilación generada por la ejecución anterior.
+
+| Herramienta | Tiempo sin caché |
+| --- | ---: |
+| GNU Make | 3.35 s |
+| Just | 3.37 s |
+| Task | 3.39 s |
+
+![Comparación del tiempo de compilación sin caché](img/tiempo-check-sin-cache.png)
+
+Los resultados sin caché son prácticamente iguales. Entre la ejecución más rápida y la más lenta solo hay una diferencia de 0.04 segundos, por lo que en este caso el tiempo está dominado por la propia compilación de Go y no por el gestor encargado de lanzar la tarea.
+
+#### Ejecución con caché
+
+También se ha realizado una segunda medición después de ejecutar previamente `go build ./...`, manteniendo la caché de compilación de Go.
+
+| Herramienta | Tiempo con caché |
+| --- | ---: |
+| GNU Make | 0.05 s |
+| Just | 0.03 s |
+| Task | 0.08 s |
+
+![Comparación del tiempo de compilación con caché](img/tiempo-check-con-cache.png)
+
+Con la caché disponible, Just ha obtenido el menor tiempo y Task el mayor. Aun así, las diferencias siguen siendo muy pequeñas: entre Just y Task hay únicamente 0.05 segundos.
+
+Esta segunda medición permite observar mejor el pequeño coste que introduce cada gestor al lanzar una tarea cuando la operación realizada por Go apenas necesita trabajo. No obstante, la diferencia es demasiado pequeña como para utilizarla por sí sola como criterio principal de elección.
+
+Teniendo en cuenta ambas pruebas, el tiempo de ejecución de `check` no permite diferenciar claramente entre GNU Make, Just y Task. Por ello se tendrá en cuenta junto con otros criterios como el tamaño, el coste de preparación y su uso posterior en workflows y contenedores.
