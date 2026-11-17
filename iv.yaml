@@ -1,5 +1,5 @@
 lenguaje: go
-entidad: todavia/na 
+entidad: internal/riego/planificador_riego.go
 
 automatizar:
   fichero: Makefile
