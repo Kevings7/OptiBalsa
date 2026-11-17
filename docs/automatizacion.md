@@ -78,27 +78,106 @@ En el entorno medido, GNU Make presenta el ejecutable de menor tamaño. Just req
 
 Esta diferencia es relevante de cara al uso posterior de la herramienta en contenedores y sistemas de integración continua, ya que una herramienta de mayor tamaño incrementa la cantidad de datos que deben incorporarse al entorno.
 
-
 ### Procedencia y mantenimiento de las herramientas
 
-Para evitar medir herramientas obtenidas desde fuentes no oficiales o desactualizadas, se comprobó la procedencia de cada alternativa antes de realizar las mediciones.
+Antes de realizar las mediciones se ha comprobado que las herramientas utilizadas procedan de fuentes oficiales y que los proyectos sigan teniendo mantenimiento.
 
-GNU Make ya se encontraba instalado en el sistema, por lo que no fue necesario descargarlo para realizar la prueba. La versión utilizada es GNU Make 4.4.1. La versión estable 4.4.1 fue publicada oficialmente por el proyecto GNU el 26 de febrero de 2023. Aunque su última versión estable es más antigua que las de las otras alternativas, GNU Make continúa siendo un proyecto mantenido dentro del ecosistema GNU y dispone de un repositorio de desarrollo con miles de commits.
+GNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. La versión utilizada es GNU Make 4.4.1, publicada oficialmente por el proyecto GNU. Aunque esta versión es más antigua que las utilizadas para Just y Task, GNU Make sigue formando parte del ecosistema GNU y mantiene actividad de desarrollo.
 
-Just se descargó directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. El repositorio continúa activo: la versión 1.59.0 fue publicada el 15 de octubre de 2026, con cambios funcionales, correcciones y modificaciones en su sistema de integración continua.
+Just se ha descargado directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. La versión utilizada, 1.59.0, fue publicada el 15 de octubre de 2026 y el repositorio mantiene actividad reciente.
 
-Task se descargó igualmente desde las releases de su repositorio oficial de GitHub, `go-task/task`. El proyecto muestra actividad reciente: la versión estable 3.54.0 fue publicada el 1 de octubre de 2026 y posteriormente se han publicado versiones nightly en noviembre de 2026.
+Task se ha descargado de la misma forma desde las releases de su repositorio oficial de GitHub, `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026, y el proyecto también mantiene actividad reciente.
 
-La existencia de publicaciones recientes se utiliza como evidencia de que Just y Task son proyectos mantenidos activamente. En el caso de GNU Make, se distingue entre la fecha de su última versión estable y la actividad de su repositorio de desarrollo, evitando asumir que una versión estable antigua implica necesariamente que el proyecto esté abandonado.
+De esta forma se evita utilizar versiones obtenidas desde fuentes externas o herramientas que puedan encontrarse abandonadas.
 
 ### Versiones utilizadas
 
-Para realizar las mediciones se han utilizado las versiones estables más recientes disponibles de cada herramienta en el momento de realizar la comparación.
+Para las mediciones se han utilizado versiones estables de las tres herramientas.
 
-En GNU Make se utiliza la versión 4.4.1, que es la versión estable publicada actualmente por el proyecto GNU.
+En GNU Make se ha utilizado la versión 4.4.1, que es la versión que ya se encontraba instalada en la máquina utilizada para las pruebas.
 
-Para Just se utiliza la versión 1.59.0, publicada el 15 de octubre de 2026 en el repositorio oficial del proyecto.
+Para Just se ha utilizado la versión 1.59.0 y para Task la versión 3.54.0. En ambos casos se han descargado las releases estables disponibles en sus repositorios oficiales.
 
-Para Task se utiliza la versión 3.54.0, publicada el 1 de octubre de 2026 en su repositorio oficial.
+No se han utilizado versiones nightly, beta o de desarrollo, ya que la intención es comparar versiones que se podrían utilizar de forma normal en un entorno de integración continua o en un contenedor.
 
-En todos los casos se utilizan versiones estables y no versiones nightly, beta o de desarrollo. De esta forma las mediciones representan las versiones que razonablemente se instalarían actualmente en un entorno nuevo de integración continua o contenedores.
+### Descarga de las herramientas en el entorno de pruebas
+
+Para comprobar el coste inicial de obtener las herramientas se han descargado directamente los binarios publicados en las releases oficiales de sus respectivos repositorios.
+
+GNU Make 4.4.1 ya se encontraba instalado en `/usr/bin/make`, por lo que en esta máquina no ha sido necesario realizar ninguna descarga adicional. Esto no quiere decir que Make vaya a estar instalado siempre, ya que dependerá de la imagen o del sistema que se utilice posteriormente.
+
+Just 1.59.0 se ha descargado desde la release oficial del repositorio `casey/just` mediante `curl`. El archivo comprimido descargado tiene un tamaño aproximado de 2.45 MiB.
+
+Task 3.54.0 se ha descargado desde la release oficial de `go-task/task` utilizando el mismo procedimiento. En este caso el archivo descargado tiene un tamaño aproximado de 15.80 MiB.
+
+![Descarga de Just y Task desde sus releases oficiales](img/instalaciondelasherramientas.png)
+
+| Herramienta | Versión | Descarga observada |
+| --- | --- | ---: |
+| GNU Make | 4.4.1 | No ha sido necesaria en el entorno utilizado |
+| Just | 1.59.0 | 2.45 MiB |
+| Task | 3.54.0 | 15.80 MiB |
+
+Estas medidas representan la cantidad de datos que se ha tenido que descargar en la máquina utilizada para las pruebas. Esto puede ser relevante posteriormente en contenedores o workflows, donde la herramienta podría tener que descargarse cada vez que se prepara un entorno nuevo.
+
+Esta medición únicamente representa el tamaño de la descarga. Para tener también en cuenta el tiempo necesario para dejar la herramienta preparada se ha realizado una medición adicional.
+
+### Tiempo de preparación de las herramientas
+
+Para realizar esta medición se ha utilizado un pequeño script de shell que parte de un directorio temporal vacío, descarga la versión seleccionada de la herramienta desde su release oficial y la descomprime.
+
+Se ha utilizado `/usr/bin/time` para medir cuánto tarda todo el proceso, desde que comienza la descarga hasta que el ejecutable queda disponible.
+
+GNU Make 4.4.1 ya se encontraba disponible en `/usr/bin/make`, por lo que en esta máquina no ha sido necesario realizar ese proceso. Este dato solo representa el entorno utilizado para las pruebas y no implica que Make vaya a estar instalado en todos los entornos futuros.
+
+| Herramienta | Versión | Tiempo de preparación |
+| --- | --- | ---: |
+| GNU Make | 4.4.1 | Ya disponible en el entorno |
+| Just | 1.59.0 | 2.33 s |
+| Task | 3.54.0 | 3.49 s |
+
+![Medición del tiempo de preparación de Just y Task](img/tiempo-instalacion-herramientas.png)
+
+El mismo procedimiento se ha utilizado para Just y Task, de forma que ambas herramientas se han medido en unas condiciones similares.
+
+En la máquina utilizada, Just ha necesitado 2.33 segundos para quedar disponible y Task 3.49 segundos. Estos tiempos dependen también de la conexión de red utilizada en ese momento, en este caso la red de la universidad, por lo que se toman como una referencia del coste de preparación y no como un valor absoluto.
+
+
+### Gestión de dependencias
+
+Para gestionar las dependencias del proyecto se ha utilizado Go Modules, que forma parte de las herramientas estándar de Go. De esta forma no ha sido necesario añadir un gestor de dependencias externo al proyecto.
+
+El módulo del proyecto se encuentra definido en `go.mod`:
+
+`github.com/Kevings7/OptiBalsa`
+
+Se ha utilizado `go list -m all` para comprobar los módulos utilizados actualmente por el proyecto. En el estado actual de OptiBalsa únicamente aparece el propio módulo, por lo que todavía no existen dependencias externas.
+
+| Elemento | Estado actual |
+| --- | --- |
+| Gestor de dependencias | Go Modules |
+| Fichero de módulos | `go.mod` |
+| Dependencias externas | 0 |
+| `go.sum` | No generado actualmente |
+
+También se ha comprobado específicamente la existencia de dependencias externas mediante:
+
+`go list -m -f '{{if not .Main}}{{.Path}} {{.Version}}{{end}}' all`
+
+La orden no devuelve ningún resultado, lo que confirma que actualmente el proyecto no utiliza módulos externos.
+
+Por este motivo tampoco existe todavía un fichero `go.sum`. No se ha creado de forma artificial, ya que actualmente no hay dependencias externas cuyas sumas de comprobación necesiten almacenarse.
+
+Para instalar o descargar las dependencias del proyecto se ha utilizado:
+
+`go mod download`
+
+Esta operación se ha automatizado mediante la tarea:
+
+`make install`
+
+De esta forma, Go Modules sigue siendo el encargado de gestionar las dependencias y GNU Make únicamente se encarga de lanzar la tarea de una forma común junto al resto de operaciones del proyecto.
+
+![Comprobación de las dependencias actuales del proyecto](img/dependencias-go-modules.png)
+
+En el estado actual del proyecto no tiene demasiado sentido comparar tiempos de descarga de dependencias con y sin caché, ya que no existe ninguna dependencia externa que descargar. Cuando el proyecto incorpore dependencias, `go mod download` seguirá siendo la operación utilizada por la tarea de instalación.
