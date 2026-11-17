@@ -1,11 +1,5 @@
 # Automatización del proyecto
 
-## Gestión de dependencias
-
-OptiBalsa utiliza Go Modules mediante `go.mod`.
-
-Go incorpora de forma nativa la gestión de módulos y dependencias, por lo que no es necesario añadir un gestor de dependencias externo al proyecto.
-
 ## Gestor de tareas
 
 ### Alternativas consideradas
@@ -46,12 +40,10 @@ Las alternativas se compararán ejecutando operaciones equivalentes del proyecto
 
 Se medirán las siguientes tareas:
 
-- descarga de dependencias;
-- compilación de los fuentes;
-- ejecución de los tests.
+- preparación de las dependencias;
+- comprobación de la compilación de los fuentes.
 
 Para que la comparación sea válida, los tres gestores ejecutarán exactamente las mismas órdenes de Go.
-
 ### Ejecución en un entorno limpio
 
 Cuando sea relevante se realizarán mediciones sin reutilizar las dependencias descargadas previamente. De esta forma se aproxima el comportamiento de una ejecución de CI sin caché.
