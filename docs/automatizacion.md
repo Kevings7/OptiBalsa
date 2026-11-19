@@ -213,3 +213,29 @@ Con la caché disponible, Just ha obtenido el menor tiempo y Task el mayor. Aun 
 Esta segunda medición permite observar mejor el pequeño coste que introduce cada gestor al lanzar una tarea cuando la operación realizada por Go apenas necesita trabajo. No obstante, la diferencia es demasiado pequeña como para utilizarla por sí sola como criterio principal de elección.
 
 Teniendo en cuenta ambas pruebas, el tiempo de ejecución de `check` no permite diferenciar claramente entre GNU Make, Just y Task. Por ello se tendrá en cuenta junto con otros criterios como el tamaño, el coste de preparación y su uso posterior en workflows y contenedores.
+
+### Ejecución del flujo completo
+
+Además de medir únicamente la compilación, se ha comparado el tiempo necesario para ejecutar el flujo completo que se utilizaría posteriormente en un workflow: preparar las dependencias del proyecto y comprobar que los fuentes compilan correctamente.
+
+En los tres gestores se han ejecutado las mismas órdenes:
+
+`go mod download`
+
+`go build ./...`
+
+Antes de cada medición se ha utilizado `go clean -cache` para evitar que una herramienta se beneficie de la caché de compilación generada por la ejecución anterior.
+
+| Herramienta | Tiempo del flujo completo |
+| --- | ---: |
+| GNU Make | 3.42 s |
+| Just | 3.79 s |
+| Task | 3.65 s |
+
+![Comparación del flujo completo](img/tiempo-flujo-completo.png)
+
+En la máquina utilizada, GNU Make ha obtenido el menor tiempo, seguido de Task y Just. La diferencia entre la ejecución más rápida y la más lenta ha sido de 0.37 segundos.
+
+Actualmente OptiBalsa no tiene dependencias externas, por lo que `go mod download` no tiene módulos adicionales que descargar y la mayor parte del tiempo de esta prueba corresponde a la compilación de Go.
+
+Por este motivo, estos resultados no se utilizan de forma aislada para elegir el gestor de tareas. Se tendrán en cuenta junto con el tamaño de la herramienta, el coste de descarga, el tiempo de preparación y su uso posterior en workflows y contenedores.
