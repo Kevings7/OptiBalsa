@@ -3,7 +3,7 @@
 install:
 	go mod download
 
-test: 
+test:  
 	go test ./...
 
 check:
