@@ -234,8 +234,37 @@ Antes de cada medición se ha utilizado `go clean -cache` para evitar que una he
 
 ![Comparación del flujo completo](img/tiempo-flujo-completo.png)
 
-En la máquina utilizada, GNU Make ha obtenido el menor tiempo, seguido de Task y Just. La diferencia entre la ejecución más rápida y la más lenta ha sido de 0.37 segundos.
+En la máquina utilizada, GNU Make ha obtenido el menor tiempo, seguido de Task y Just. Si calculamos, diferencia entre la ejecución más rápida y la más lenta ha sido de 0.37 segundos.
 
 Actualmente OptiBalsa no tiene dependencias externas, por lo que `go mod download` no tiene módulos adicionales que descargar y la mayor parte del tiempo de esta prueba corresponde a la compilación de Go.
 
-Por este motivo, estos resultados no se utilizan de forma aislada para elegir el gestor de tareas. Se tendrán en cuenta junto con el tamaño de la herramienta, el coste de descarga, el tiempo de preparación y su uso posterior en workflows y contenedores.
+Por este motivo, estos resultados se tendrán en cuenta junto con el tamaño de la herramienta, el coste de descarga, el tiempo de preparación y su uso posterior en workflows y contenedores.
+
+## Resumen de resultados
+
+Después de realizar las distintas pruebas, los resultados obtenidos han sido los siguientes:
+
+| Criterio | GNU Make | Just | Task |
+| --- | ---: | ---: | ---: |
+| Tamaño del ejecutable | 281 KiB | 6.2 MiB | 50 MiB |
+| Descarga observada | Ya disponible | 2.45 MiB | 15.80 MiB |
+| Tiempo de preparación | Ya disponible | 2.33 s | 3.49 s |
+| `check` sin caché | 3.35 s | 3.37 s | 3.39 s |
+| `check` con caché | 0.05 s | 0.03 s | 0.08 s |
+| Flujo `install + check` | 3.42 s | 3.79 s | 3.65 s |
+
+En las tareas de compilación las diferencias entre los tres gestores han sido pequeñas. Sin caché solo existen 0.04 segundos entre el resultado más rápido y el más lento, por lo que esta prueba no permite diferenciar claramente entre las herramientas.
+
+Las diferencias más grandes se han encontrado en el tamaño y en la preparación de las herramientas. GNU Make ya se encontraba disponible en el entorno utilizado y su ejecutable ocupa 281 KiB. Just y Task han necesitado una descarga y preparación adicional, siendo Task la alternativa de mayor tamaño.
+
+## Elección
+
+Después de realizar todas las mediciones se ha decidido mantener GNU Make como gestor de tareas de OptiBalsa.
+
+El tiempo de ejecución de las tareas no muestra diferencias suficientemente grandes como para decidir únicamente a partir de este criterio. Just ha obtenido el mejor resultado en la ejecución con caché, mientras que GNU Make ha obtenido el mejor resultado en el flujo completo, en ambos casos las diferencias son pequeñas.
+
+La principal diferencia se encuentra en el coste de incorporar cada herramienta al entorno. En la máquina utilizada GNU Make ya se encontraba disponible y además presenta el ejecutable de menor tamaño. Just y Task requieren incorporar herramientas adicionales, con un mayor tamaño y un proceso previo de descarga y preparación.
+
+OptiBalsa utiliza Go Modules para gestionar sus dependencias, por lo que GNU Make no sustituye al gestor de dependencias. Su función será únicamente agrupar y ejecutar de forma sencilla las operaciones habituales del proyecto, como `go mod download` y `go build ./...`.
+
+Esta elección se ha realizado teniendo también en cuenta su uso posterior en workflows y contenedores. Que GNU Make haya estado disponible en el entorno utilizado no implica que vaya a estar instalado en todos los entornos futuros, por lo que, cuando se definan estos entornos, habrá que asegurar explícitamente que la herramienta esté disponible.
