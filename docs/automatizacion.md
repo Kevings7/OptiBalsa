@@ -74,7 +74,11 @@ Esta diferencia es relevante de cara al uso posterior de la herramienta en conte
 
 Antes de realizar las mediciones se ha comprobado que las herramientas utilizadas procedan de fuentes oficiales y que los proyectos sigan teniendo mantenimiento.
 
-GNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. La versión utilizada es GNU Make 4.4.1, publicada oficialmente por el proyecto GNU. Aunque esta versión es más antigua que las utilizadas para Just y Task, GNU Make sigue formando parte del ecosistema GNU y mantiene actividad de desarrollo.
+GGNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. La versión utilizada es GNU Make 4.4.1, publicada oficialmente por el proyecto GNU el 26 de febrero de 2023. Aunque su fecha de publicación es anterior a las versiones utilizadas de Just y Task, se ha mantenido esta versión porque es la versión estable disponible en el entorno utilizado para las mediciones.
+
+Just se ha descargado directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. La versión utilizada, 1.59.0, fue publicada el 15 de octubre de 2026.
+
+Task se ha descargado de la misma forma desde las releases de su repositorio oficial de GitHub, `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026.
 
 Just se ha descargado directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. La versión utilizada, 1.59.0, fue publicada el 15 de octubre de 2026 y el repositorio mantiene actividad reciente.
 
