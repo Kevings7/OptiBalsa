@@ -1,2 +1,6 @@
 lenguaje: go
 entidad: internal/riego/planificador_riego.go
+
+automatizar:
+  fichero: Makefile
+  orden: make

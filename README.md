@@ -84,6 +84,35 @@ Se han añadido las primeras Historias de Usuario al proyecto junto a los primer
 
 Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema. Para ello se pueden consultar la información de expertos de cara al desarrollo en [información relativa](#datos-y-conocimiento-del-dominio). 
 
+
+# Automatización
+
+Las operaciones habituales del proyecto se ejecutan mediante GNU Make.
+
+Para instalar las dependencias del proyecto:
+
+```bash
+make install
+```
+
+Para comprobar únicamente que los fuentes Go compilan correctamente:
+
+```bash
+make check
+```
+
+La tarea `check` no ejecuta tests, formato ni linter; se limita a comprobar la compilación de los fuentes.
+
+Para ejecutar los tests:
+
+```bash
+make test
+```
+
+La comparación y justificación de la herramienta de automatización se documenta en `docs/automatizacion.md`.
+
+
+
 # Enlaces de interés al desarrollo.
 
 A continuación se añaden enlaces a las HUs para comprender el desarrollo. 
