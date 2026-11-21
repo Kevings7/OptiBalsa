@@ -3,8 +3,5 @@
 install:
 	go mod download
 
-test:  
-	go test ./...
-
 check:
 	go build ./...

@@ -103,11 +103,6 @@ make check
 
 La tarea `check` no ejecuta tests, formato ni linter; se limita a comprobar la compilación de los fuentes.
 
-Para ejecutar los tests:
-
-```bash
-make test
-```
 
 La comparación y justificación de la herramienta de automatización se documenta en `docs/automatizacion.md`.
 
