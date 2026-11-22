@@ -111,7 +111,7 @@ Just 1.59.0 se ha descargado desde la release oficial del repositorio `casey/jus
 
 Task 3.54.0 se ha descargado desde la release oficial de `go-task/task` utilizando el mismo procedimiento. En este caso el archivo descargado tiene un tamaño aproximado de 15.80 MiB.
 
-![Descarga de Just y Task desde sus releases oficiales](img/instalaciondelasherramientas.png)
+![Descarga de Just y Task desde sus releases oficiales](img/instalaciondelasherramientas.png) 
 
 | Herramienta | Versión | Tamaño de descarga observado |
 | --- | --- | ---: |
