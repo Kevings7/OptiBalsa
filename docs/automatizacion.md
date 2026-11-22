@@ -44,6 +44,7 @@ Se medirán las siguientes tareas:
 - comprobación de la compilación de los fuentes.
 
 Para que la comparación sea válida, los tres gestores ejecutarán exactamente las mismas órdenes de Go.
+
 ### Ejecución en un entorno limpio
 
 Cuando sea relevante se realizarán mediciones sin reutilizar las dependencias descargadas previamente. De esta forma se aproxima el comportamiento de una ejecución de CI sin caché.
@@ -74,15 +75,11 @@ Esta diferencia es relevante de cara al uso posterior de la herramienta en conte
 
 Antes de realizar las mediciones se ha comprobado que las herramientas utilizadas procedan de fuentes oficiales y que los proyectos sigan teniendo mantenimiento.
 
-GGNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. La versión utilizada es GNU Make 4.4.1, publicada oficialmente por el proyecto GNU el 26 de febrero de 2023. Aunque su fecha de publicación es anterior a las versiones utilizadas de Just y Task, se ha mantenido esta versión porque es la versión estable disponible en el entorno utilizado para las mediciones.
+GNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. La versión utilizada es GNU Make 4.4.1, publicada oficialmente por el proyecto GNU el 26 de febrero de 2023. Aunque su fecha de publicación es anterior a las versiones utilizadas de Just y Task, se ha mantenido esta versión porque es la versión estable disponible en el entorno utilizado para las mediciones.
 
 Just se ha descargado directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. La versión utilizada, 1.59.0, fue publicada el 15 de octubre de 2026.
 
 Task se ha descargado de la misma forma desde las releases de su repositorio oficial de GitHub, `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026.
-
-Just se ha descargado directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. La versión utilizada, 1.59.0, fue publicada el 15 de octubre de 2026 y el repositorio mantiene actividad reciente.
-
-Task se ha descargado de la misma forma desde las releases de su repositorio oficial de GitHub, `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026, y el proyecto también mantiene actividad reciente.
 
 De esta forma se evita utilizar versiones obtenidas desde fuentes externas o herramientas que puedan encontrarse abandonadas.
 
@@ -106,9 +103,9 @@ Just 1.59.0 se ha descargado desde la release oficial del repositorio `casey/jus
 
 Task 3.54.0 se ha descargado desde la release oficial de `go-task/task` utilizando el mismo procedimiento. En este caso el archivo descargado tiene un tamaño aproximado de 15.80 MiB.
 
-![Descarga de Just y Task desde sus releases oficiales](img/instalaciondelasherramientas.png) 
+![Descarga de Just y Task desde sus releases oficiales](img/instalaciondelasherramientas.png)
 
-| Herramienta | Versión | Descarga observada |
+| Herramienta | Versión | Tamaño de descarga observado |
 | --- | --- | ---: |
 | GNU Make | 4.4.1 | No ha sido necesaria en el entorno utilizado |
 | Just | 1.59.0 | 2.45 MiB |
@@ -137,7 +134,6 @@ GNU Make 4.4.1 ya se encontraba disponible en `/usr/bin/make`, por lo que en est
 El mismo procedimiento se ha utilizado para Just y Task, de forma que ambas herramientas se han medido en unas condiciones similares.
 
 En la máquina utilizada, Just ha necesitado 2.33 segundos para quedar disponible y Task 3.49 segundos. Estos tiempos dependen también de la conexión de red utilizada en ese momento, en este caso la red de la universidad, por lo que se toman como una referencia del coste de preparación y no como un valor absoluto.
-
 
 ## Gestión de dependencias
 
