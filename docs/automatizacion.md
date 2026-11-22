@@ -9,6 +9,7 @@ Se estudian las siguientes alternativas:
 - GNU Make
 - Just
 - Task
+- [xc](https://github.com/joerdav/xc)
 
 La elección se realizará después de comparar las alternativas mediante mediciones realizadas sobre el mismo entorno.
 
@@ -18,15 +19,17 @@ Las herramientas de automatización se utilizarán posteriormente en entornos au
 
 Los criterios utilizados son los siguientes:
 
-### Coste de instalación
+### Coste de incorporación al entorno
 
-Se tendrá en cuenta el tiempo necesario para disponer de cada gestor de tareas en el entorno utilizado para las pruebas.
+Se medirá el coste necesario para disponer de cada gestor de tareas en el entorno utilizado para las pruebas.
 
-Además del tiempo, se comprobará el tamaño que ocupa la herramienta instalada. Esto permite estimar el coste adicional que introduciría en futuros entornos de CI o contenedores.
+Para compararlo se utilizarán tres medidas:
 
-### Dependencias adicionales
+- tamaño de la descarga necesaria;
+- tamaño del ejecutable instalado;
+- tiempo necesario para descargarlo y dejarlo disponible.
 
-Se comprobará qué software adicional necesita cada alternativa para poder utilizarse. Se priorizarán las soluciones que introduzcan menos componentes adicionales en la infraestructura del proyecto.
+El hecho de que una herramienta necesite instalar un binario no será motivo de descarte por sí solo. La comparación se realizará a partir del coste medido que introduce.
 
 ### Gestión de dependencias del proyecto
 
@@ -43,7 +46,7 @@ Se medirán las siguientes tareas:
 - preparación de las dependencias;
 - comprobación de la compilación de los fuentes.
 
-Para que la comparación sea válida, los tres gestores ejecutarán exactamente las mismas órdenes de Go.
+Para que la comparación sea válida, los cuatro gestores ejecutarán exactamente las mismas órdenes de Go.
 
 ### Ejecución en un entorno limpio
 
@@ -73,15 +76,15 @@ Esta diferencia es relevante de cara al uso posterior de la herramienta en conte
 
 ### Procedencia y mantenimiento de las herramientas
 
-Antes de realizar las mediciones se ha comprobado que las herramientas utilizadas procedan de fuentes oficiales y que los proyectos sigan teniendo mantenimiento.
+Antes de realizar las mediciones se ha comprobado que las versiones utilizadas procedan de las fuentes oficiales de cada herramienta.
 
-GNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. La versión utilizada es GNU Make 4.4.1, publicada oficialmente por el proyecto GNU el 26 de febrero de 2023. Aunque su fecha de publicación es anterior a las versiones utilizadas de Just y Task, se ha mantenido esta versión porque es la versión estable disponible en el entorno utilizado para las mediciones.
+GNU Make ya se encontraba instalado en el sistema, por lo que no ha sido necesario descargarlo para realizar las pruebas. Se ha utilizado la versión 4.4.1, publicada oficialmente por el proyecto GNU el 26 de febrero de 2023.
 
-Just se ha descargado directamente desde la sección de releases de su repositorio oficial de GitHub, `casey/just`, utilizando el binario publicado para Linux. La versión utilizada, 1.59.0, fue publicada el 15 de octubre de 2026.
+Just se ha descargado desde la sección de releases de su repositorio oficial `casey/just`, utilizando el binario publicado para Linux. La versión utilizada ha sido la 1.59.0, publicada el 15 de octubre de 2026.
 
-Task se ha descargado de la misma forma desde las releases de su repositorio oficial de GitHub, `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026.
+Task se ha descargado desde las releases de su repositorio oficial `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026.
 
-De esta forma se evita utilizar versiones obtenidas desde fuentes externas o herramientas que puedan encontrarse abandonadas.
+Las versiones utilizadas en las mediciones proceden, por tanto, de las fuentes oficiales de cada herramienta.
 
 ### Versiones utilizadas
 
@@ -240,22 +243,117 @@ Actualmente OptiBalsa no tiene dependencias externas, por lo que `go mod downloa
 
 Por este motivo, estos resultados se tendrán en cuenta junto con el tamaño de la herramienta, el coste de descarga, el tiempo de preparación y su uso posterior en workflows y contenedores.
 
+### xc
+
+Como alternativa adicional a GNU Make, Just y Task se ha considerado [`xc`](https://github.com/joerdav/xc). `xc` es un gestor de tareas que permite definir las operaciones directamente en un fichero Markdown. La documentación oficial de `xc` está disponible en [xcfile.dev](https://xcfile.dev/).
+
+A diferencia de Make, donde las tareas se definen en un `Makefile`, `xc` utiliza encabezados y bloques de código Markdown. Esto permite que las órdenes utilizadas por el proyecto queden documentadas en el mismo fichero en el que se definen.
+
+El proyecto oficial define `xc` como un gestor de tareas basado en documentación. `xc` permite utilizar tanto el `README.md` como otro fichero Markdown mediante la opción `-f`.
+
+Para realizar las pruebas se ha creado temporalmente un fichero `xc.bench.md` con las mismas operaciones utilizadas con el resto de gestores. En ese fichero, el encabezado `## Tasks` abre la lista de tareas y cada encabezado `###` define una tarea:
+
+````markdown
+# Benchmark xc
+
+## Tasks
+
+### install
+
+```sh
+go mod download
+```
+
+### check
+
+```sh
+go build ./...
+```
+````
+
+De esta forma, la tarea de comprobación se ha ejecutado mediante:
+
+`xc -f xc.bench.md check`
+
+y el flujo completo mediante las tareas `install` y `check`.
+
+La herramienta se ha descargado desde la release oficial para Linux de `joerdav/xc`. Se ha utilizado la versión 0.9.0.
+
+![Descarga y preparación de xc](img/instalacionxc.png)
+
+El archivo comprimido descargado ocupa aproximadamente 2.0 MiB y el ejecutable resultante ocupa aproximadamente 4.7 MiB.
+
+![Tamaño de xc](img/tamanioxc.png)
+
+Para comprobar el coste de preparar la herramienta desde un entorno temporal vacío se ha medido el tiempo necesario para descargar la release y extraer el ejecutable.
+
+El tiempo obtenido ha sido:
+
+| Herramienta | Tiempo de preparación |
+| --- | ---: |
+| xc | 0.98 s |
+
+![Tiempo de preparación de xc](img/instalacioncompleta.png)
+
+También se ha comprobado que `xc` reconoce correctamente las tareas definidas en el fichero Markdown y permite ejecutarlas de forma independiente.
+
+![Selección y ejecución de tareas con xc](img/selectorxc.png)
+
+#### Ejecución de `check`
+
+Para mantener las mismas condiciones utilizadas con GNU Make, Just y Task, se ha ejecutado exactamente la misma orden de Go:
+
+`go build ./...`
+
+Primero se ha limpiado la caché de compilación mediante `go clean -cache`.
+
+| Estado | Tiempo |
+| --- | ---: |
+| Sin caché | 5.03 s |
+| Con caché | 0.06 s |
+
+![Ejecución de xc con y sin caché](img/sincacheconcachexc.png)
+
+Con la caché de Go disponible, el tiempo obtenido por `xc` es similar al del resto de gestores. Sin caché, en cambio, la medición obtenida ha sido superior a las realizadas con GNU Make, Just y Task.
+
+#### Ejecución del flujo completo
+
+También se ha medido el mismo flujo utilizado en las demás alternativas:
+
+`go mod download`
+
+`go build ./...`
+
+Antes de la medición se ha limpiado la caché de compilación de Go.
+
+| Herramienta | Tiempo del flujo completo |
+| --- | ---: |
+| xc | 5.14 s |
+
+![Ejecución del flujo completo con xc](img/xccompleto.png)
+
+En las mediciones realizadas, `xc` presenta un coste de preparación reducido y un tamaño inferior al de Just y Task. Sin embargo, el tiempo obtenido en la ejecución sin caché y en el flujo completo ha sido superior al de las otras alternativas consideradas.
+
+Por tanto, `xc` aporta un enfoque diferente al permitir definir y documentar las tareas mediante Markdown, pero su elección se valorará utilizando los mismos criterios objetivos que el resto de herramientas y no únicamente por esta característica.
+
 ## Resumen de resultados
 
 Después de realizar las distintas pruebas, los resultados obtenidos han sido los siguientes:
 
-| Criterio | GNU Make | Just | Task |
-| --- | ---: | ---: | ---: |
-| Tamaño del ejecutable | 281 KiB | 6.2 MiB | 50 MiB |
-| Descarga observada | Ya disponible | 2.45 MiB | 15.80 MiB |
-| Tiempo de preparación | Ya disponible | 2.33 s | 3.49 s |
-| `check` sin caché | 3.35 s | 3.37 s | 3.39 s |
-| `check` con caché | 0.05 s | 0.03 s | 0.08 s |
-| Flujo `install + check` | 3.42 s | 3.79 s | 3.65 s |
+| Criterio | GNU Make | Just | Task | xc |
+| --- | ---: | ---: | ---: | ---: |
+| Tamaño del ejecutable | 281 KiB | 6.2 MiB | 50 MiB | 4.7 MiB |
+| Tamaño de descarga | Ya disponible | 2.45 MiB | 15.80 MiB | 2.0 MiB |
+| Tiempo de preparación | Ya disponible | 2.33 s | 3.49 s | 0.98 s |
+| `check` sin caché | 3.35 s | 3.37 s | 3.39 s | 5.03 s |
+| `check` con caché | 0.05 s | 0.03 s | 0.08 s | 0.06 s |
+| Flujo `install + check` | 3.42 s | 3.79 s | 3.65 s | 5.14 s |
 
-En las tareas de compilación las diferencias entre los tres gestores han sido pequeñas. Sin caché solo existen 0.04 segundos entre el resultado más rápido y el más lento, por lo que esta prueba no permite diferenciar claramente entre las herramientas.
+En las ejecuciones con caché las diferencias entre las cuatro herramientas son pequeñas. Sin caché, GNU Make, Just y Task han obtenido resultados similares, mientras que `xc` ha necesitado más tiempo.
 
-Las diferencias más grandes se han encontrado en el tamaño y en la preparación de las herramientas. GNU Make ya se encontraba disponible en el entorno utilizado y su ejecutable ocupa 281 KiB. Just y Task han necesitado una descarga y preparación adicional, siendo Task la alternativa de mayor tamaño.
+En cuanto al coste de incorporación al entorno, `xc` ha obtenido el menor tiempo de preparación entre las herramientas que se han tenido que descargar y su ejecutable es más pequeño que los de Just y Task.
+
+Por tanto, ninguna medida aislada determina la elección. Los resultados de ejecución y el coste de incorporación se tendrán en cuenta conjuntamente.
 
 ## Elección
 
