@@ -67,6 +67,7 @@ Para comparar la ligereza de las herramientas se ha medido el tamaño en disco d
 | GNU Make | 4.4.1 | 281 KiB |
 | Just | 1.59.0 | 6.2 MiB |
 | Task | 3.54.0 | 50 MiB |
+| xc | 0.9.0 | 4.7 MiB |
 
 ![Medición del tamaño de los gestores de tareas](img/tamanioherramientas.png)
 
@@ -84,15 +85,19 @@ Just se ha descargado desde la sección de releases de su repositorio oficial `c
 
 Task se ha descargado desde las releases de su repositorio oficial `go-task/task`. Se ha utilizado la versión 3.54.0, publicada el 1 de octubre de 2026.
 
+`xc` se ha descargado desde las releases de su repositorio oficial `joerdav/xc`. Se ha utilizado la versión 0.9.0, publicada el 5 de enero de 2026.
+
 Las versiones utilizadas en las mediciones proceden, por tanto, de las fuentes oficiales de cada herramienta.
 
 ### Versiones utilizadas
 
-Para las mediciones se han utilizado versiones estables de las tres herramientas.
+Para las mediciones se han utilizado versiones estables de las cuatro herramientas.
 
 En GNU Make se ha utilizado la versión 4.4.1, que es la versión que ya se encontraba instalada en la máquina utilizada para las pruebas.
 
 Para Just se ha utilizado la versión 1.59.0 y para Task la versión 3.54.0. En ambos casos se han descargado las releases estables disponibles en sus repositorios oficiales.
+
+Para `xc` se ha utilizado la versión 0.9.0 descargada desde la release oficial de su repositorio.
 
 No se han utilizado versiones nightly, beta o de desarrollo, ya que la intención es comparar versiones que se podrían utilizar de forma normal en un entorno de integración continua o en un contenedor.
 
@@ -113,6 +118,7 @@ Task 3.54.0 se ha descargado desde la release oficial de `go-task/task` utilizan
 | GNU Make | 4.4.1 | No ha sido necesaria en el entorno utilizado |
 | Just | 1.59.0 | 2.45 MiB |
 | Task | 3.54.0 | 15.80 MiB |
+| xc | 0.9.0 | 2.0 MiB |
 
 Estas medidas representan la cantidad de datos que se ha tenido que descargar en la máquina utilizada para las pruebas. Esto puede ser relevante posteriormente en contenedores o workflows, donde la herramienta podría tener que descargarse cada vez que se prepara un entorno nuevo.
 
@@ -131,6 +137,7 @@ GNU Make 4.4.1 ya se encontraba disponible en `/usr/bin/make`, por lo que en est
 | GNU Make | 4.4.1 | Ya disponible en el entorno |
 | Just | 1.59.0 | 2.33 s |
 | Task | 3.54.0 | 3.49 s |
+| xc | 0.9.0 | 0.98 s |
 
 ![Medición del tiempo de preparación de Just y Task](img/tiempo-instalacion-herramientas.png)
 
@@ -359,10 +366,14 @@ Por tanto, ninguna medida aislada determina la elección. Los resultados de ejec
 
 Después de realizar todas las mediciones se ha decidido mantener GNU Make como gestor de tareas de OptiBalsa.
 
-El tiempo de ejecución de las tareas no muestra diferencias suficientemente grandes como para decidir únicamente a partir de este criterio. Just ha obtenido el mejor resultado en la ejecución con caché, mientras que GNU Make ha obtenido el mejor resultado en el flujo completo, en ambos casos las diferencias son pequeñas.
+Los tiempos de ejecución con caché son muy similares entre las cuatro herramientas. Just ha obtenido 0.03 s, GNU Make 0.05 s, `xc` 0.06 s y Task 0.08 s, por lo que estas diferencias son demasiado pequeñas para determinar por sí solas la elección.
 
-La principal diferencia se encuentra en el coste de incorporar cada herramienta al entorno. En la máquina utilizada GNU Make ya se encontraba disponible y además presenta el ejecutable de menor tamaño. Just y Task requieren incorporar herramientas adicionales, con un mayor tamaño y un proceso previo de descarga y preparación.
+En las ejecuciones sin caché, GNU Make, Just y Task han obtenido resultados cercanos, entre 3.35 y 3.39 segundos, mientras que `xc` ha necesitado 5.03 segundos. En el flujo completo `install + check` ocurre algo parecido: GNU Make ha obtenido 3.42 s, Task 3.65 s, Just 3.79 s y `xc` 5.14 s.
 
-OptiBalsa utiliza Go Modules para gestionar sus dependencias, por lo que GNU Make no sustituye al gestor de dependencias. Su función será únicamente agrupar y ejecutar de forma sencilla las operaciones habituales del proyecto, como `go mod download` y `go build ./...`.
+En cuanto al coste de incorporación al entorno, `xc` ha obtenido un resultado favorable: su descarga ocupa aproximadamente 2.0 MiB, su ejecutable 4.7 MiB y ha necesitado 0.98 s para quedar disponible. Just y Task presentan un coste mayor en alguna o varias de estas medidas. GNU Make tiene el ejecutable de menor tamaño, aunque en el entorno utilizado ya se encontraba instalado y por ello no se ha podido medir su preparación en las mismas condiciones.
 
-Esta elección se ha realizado teniendo también en cuenta su uso posterior en workflows y contenedores. Que GNU Make haya estado disponible en el entorno utilizado no implica que vaya a estar instalado en todos los entornos futuros, por lo que, cuando se definan estos entornos, habrá que asegurar explícitamente que la herramienta esté disponible.
+Teniendo en cuenta conjuntamente las medidas realizadas, se mantiene GNU Make. Presenta el menor tamaño de ejecutable y ha obtenido los mejores resultados en la ejecución sin caché y en el flujo completo. `xc` resulta especialmente favorable en el tiempo de preparación y presenta un tamaño reducido, pero en las tareas ejecutadas desde un entorno sin caché ha obtenido tiempos superiores.
+
+OptiBalsa utiliza Go Modules para gestionar sus dependencias, por lo que GNU Make no sustituye al gestor de dependencias. Su función es agrupar y ejecutar de forma común operaciones como `go mod download` y `go build ./...`.
+
+La disponibilidad previa de GNU Make en la máquina utilizada no se considera por sí sola una razón para elegirlo, ya que no se puede asumir que vaya a estar instalado en todos los entornos futuros. La elección se basa en el conjunto de las mediciones realizadas.
