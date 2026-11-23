@@ -60,3 +60,14 @@ Su instalación ha necesitado **7.727 s** y la ejecución de `check` **5.383 s**
 
 ![Ejecución de check con mise](img/checkMise.png)
 
+## Elección
+
+Se ha elegido GNU Make como gestor de tareas de OptiBalsa.
+
+La imagen `golang:1.26.10-bookworm`, utilizada porque contiene la misma versión de Go declarada por el proyecto, ya incluye GNU Make en `/usr/bin/make`. Por tanto, no necesita ningún paso adicional de preparación en el entorno utilizado para las mediciones. En cambio, `xc` ha necesitado 1,575 s para quedar disponible, goyek 3,504 s y mise 7,727 s.
+
+En la ejecución de `check`, GNU Make ha obtenido el menor tiempo, con 5,353 s, frente a los 5,383 s de mise, los 5,460 s de `xc` y los 6,004 s de goyek. Las diferencias entre GNU Make, mise y `xc` son pequeñas, pero GNU Make combina la ausencia de preparación adicional con el menor tiempo obtenido en esta prueba.
+
+Por estos motivos se ha elegido GNU Make como gestor de tareas.
+
+Go Modules seguirá siendo el encargado de gestionar las dependencias del proyecto, mientras que GNU Make se utilizará únicamente para ejecutar las tareas, como `go mod download` y `go build ./...`.
