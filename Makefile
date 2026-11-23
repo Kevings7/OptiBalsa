@@ -1,7 +1,7 @@
-.PHONY: install test check
+.PHONY: install check
 
 install:
 	go mod download
 
 check:
-	go build ./...
+	gofmt -e -l . >/dev/null

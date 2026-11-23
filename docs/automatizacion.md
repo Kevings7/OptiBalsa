@@ -8,66 +8,58 @@ Actualmente el proyecto no tiene dependencias externas, por lo que `go mod downl
 
 ## Gestor de tareas
 
-Para elegir el gestor de tareas se han considerado [GNU Make](https://www.gnu.org/software/make/), [xc](https://github.com/joerdav/xc), [goyek](https://github.com/goyek/goyek) y [mise](https://mise.jdx.dev/).
+Se han considerado cuatro herramientas. No se han incluido Just y Task porque en la revisión se pidió utilizar herramientas distintas de las habituales.
 
-Se han tenido en cuenta el tiempo necesario para preparar cada herramienta y el tiempo necesario para ejecutar la tarea `check`.
+- **[GNU Make](https://www.gnu.org/software/make/):** las tareas se definen en un `Makefile`. Resulta interesante porque es una herramienta de propósito general que no depende del lenguaje del proyecto.
+- **[xc](https://github.com/joerdav/xc):** las tareas se definen en un fichero Markdown. Resulta interesante porque las tareas quedan documentadas en el mismo fichero en el que se definen, sin añadir un formato de configuración específico.
+- **[goyek](https://github.com/goyek/goyek):** las tareas se escriben en Go, en un módulo del propio proyecto. Resulta interesante porque en un proyecto escrito en Go permite definir las tareas con el mismo lenguaje y sus herramientas.
+- **[mise](https://mise.jdx.dev/):** las tareas se definen en un `mise.toml`. Resulta interesante porque, además de ejecutar tareas, puede gestionar las versiones de las herramientas que necesita el proyecto.
 
-Las mediciones se han realizado en contenedores nuevos creados a partir de `golang:1.26.10-bookworm`, sobre la misma máquina y utilizando la misma revisión de OptiBalsa. Cada herramienta se ha probado en un contenedor nuevo para evitar que se beneficie de instalaciones anteriores.
+### Criterios
 
-En todos los casos `check` ejecuta:
+- **Tiempo de preparación:** en un entorno vacío, como un contenedor o un workflow, hay que preparar el gestor antes de lanzar ninguna tarea. Se considera aceptable si queda disponible en menos de 10 s.
+- **Tiempo que añade a `check`:** las tareas se lanzarán en cada cambio. Se compara con lo que tarda la misma orden sin ningún gestor, y se considera aceptable si añade menos de 50 ms por ejecución.
 
-`go build ./...`
+Entre las herramientas que cumplan los dos criterios, se elige la que menos tiempo sume.
 
-Antes de medir su ejecución se ha utilizado `go clean -cache` para partir de las mismas condiciones.
+### Pruebas
 
-### GNU Make
+Las pruebas se han realizado en contenedores creados a partir de `golang:1.26.10-bookworm`, que contiene la misma versión de Go declarada por el proyecto. La preparación de cada herramienta se ha medido en un contenedor nuevo.
 
-[GNU Make](https://www.gnu.org/software/make/) es una herramienta de automatización de propósito general basada en un `Makefile`. Resulta interesante porque permite agrupar las operaciones habituales del proyecto sin depender del lenguaje utilizado.
+En las cuatro herramientas, `check` ejecuta `gofmt -e -l .`, que comprueba la sintaxis de los ficheros Go sin modificarlos ni compilar el proyecto.
 
-GNU Make ya se encuentra disponible en la imagen `golang:1.26.10-bookworm`, en `/usr/bin/make`, por lo que no necesita ningún paso adicional de preparación. La ejecución de `check` ha necesitado **5,353 s**.
+Tiempo de preparación:
 
-![GNU Make disponible en el entorno de medición](img/makeDisponible.png)
+- GNU Make: ya disponible en la imagen, en `/usr/bin/make`.
+- xc 0.9.0 (binario de su release oficial): **1,575 s**.
+- goyek (descarga de su módulo): **3,504 s**.
+- mise: **7,727 s**.
 
-![Ejecución de check con GNU Make](img/checkMake.png)
-
-### xc
-
-[xc](https://github.com/joerdav/xc) permite definir las tareas directamente mediante Markdown. Resulta interesante porque las tareas pueden mantenerse junto a su documentación, reduciendo la necesidad de añadir un formato de configuración específico únicamente para automatizarlas.
-
-Se ha descargado desde su release oficial. Ha necesitado **1.575 s** para quedar disponible y **5.460 s** para ejecutar `check`.
+![GNU Make disponible en la imagen](img/makeDisponible.png)
 
 ![Preparación de xc](img/preparacionXc.png)
 
-![Ejecución de check con xc](img/checkXc.png)
-
-### goyek
-
-[goyek](https://github.com/goyek/goyek) permite definir la automatización mediante código Go. Resulta interesante en un proyecto escrito en Go porque permite implementar las tareas utilizando el mismo lenguaje y sus herramientas, en lugar de introducir otro formato de configuración.
-
-Para probarlo se ha creado un pequeño módulo de automatización con una tarea `check`. La preparación de sus dependencias ha necesitado **3.504 s** y la ejecución de `check` **6.004 s**.
-
 ![Preparación de goyek](img/preparacionGoyek.png)
-
-![Ejecución de check con goyek](img/checkGoyek.png)
-
-### mise
-
-[mise](https://mise.jdx.dev/) permite definir y ejecutar tareas de proyecto y también gestionar herramientas del entorno. Puede resultar interesante cuando, además de automatizar órdenes, el proyecto necesita controlar las versiones de las herramientas utilizadas.
-
-Su instalación ha necesitado **7.727 s** y la ejecución de `check` **5.383 s**.
 
 ![Preparación de mise](img/preparacionMise.png)
 
-![Ejecución de check con mise](img/checkMise.png)
+
+Tiempo de `check`, medido con Hyperfine con 3 ejecuciones de calentamiento y 30 mediciones por orden, sin pasar por la shell (opción `-N`) para que su tiempo de arranque no afecte a la medición:
+
+- Sin gestor: **4,3 ms**.
+- GNU Make: **6,5 ms** (añade 2,2 ms).
+- xc: **7,5 ms** (añade 3,2 ms).
+- mise: **17,5 ms** (añade 13,2 ms).
+- goyek: **50,3 ms** (añade 46,0 ms, porque `go run` compila el código de las tareas antes de ejecutarlas).
+
+![Tiempo de check con cada gestor](img/hyperfinecomparacion.png)
 
 ## Elección
 
 Se ha elegido GNU Make como gestor de tareas de OptiBalsa.
 
-La imagen `golang:1.26.10-bookworm`, utilizada porque contiene la misma versión de Go declarada por el proyecto, ya incluye GNU Make en `/usr/bin/make`. Por tanto, no necesita ningún paso adicional de preparación en el entorno utilizado para las mediciones. En cambio, `xc` ha necesitado 1,575 s para quedar disponible, goyek 3,504 s y mise 7,727 s.
+GNU Make ya está disponible en la imagen utilizada, por lo que no añade tiempo de preparación, frente a los 1,575 s de xc, los 3,504 s de goyek y los 7,727 s de mise. Al ejecutar `check` añade 2,2 ms respecto a la orden sin gestor, frente a los 3,2 ms de xc, los 13,2 ms de mise y los 46,0 ms de goyek.
 
-En la ejecución de `check`, GNU Make ha obtenido el menor tiempo, con 5,353 s, frente a los 5,383 s de mise, los 5,460 s de `xc` y los 6,004 s de goyek. Las diferencias entre GNU Make, mise y `xc` son pequeñas, pero GNU Make combina la ausencia de preparación adicional con el menor tiempo obtenido en esta prueba.
+Las cuatro herramientas cumplen los dos criterios, y GNU Make es la que obtiene el mejor resultado en ambos.
 
-Por estos motivos se ha elegido GNU Make como gestor de tareas.
-
-Go Modules seguirá siendo el encargado de gestionar las dependencias del proyecto, mientras que GNU Make se utilizará únicamente para ejecutar las tareas, como `go mod download` y `go build ./...`.
+Go Modules seguirá siendo el encargado de gestionar las dependencias, y GNU Make se utilizará únicamente para lanzar las tareas `install` y `check`.
