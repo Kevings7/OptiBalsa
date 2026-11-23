@@ -1,6 +1,6 @@
 .PHONY: install check
 
-install:
+install: 
 	go mod download
 
 check:
