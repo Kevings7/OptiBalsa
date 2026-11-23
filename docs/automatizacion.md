@@ -2,7 +2,7 @@
 
 ## Gestor de dependencias
 
-OptiBalsa utiliza Go Modules, integrado en Go, para gestionar las dependencias del proyecto.
+OptiBalsa utiliza [Go Modules](https://go.dev/ref/mod), integrado en Go, para gestionar las dependencias del proyecto.
 
 Actualmente el proyecto no tiene dependencias externas, por lo que `go mod download` no descarga ningún módulo adicional. Esta orden se utiliza en la tarea `install` para que siga siendo válida cuando se incorporen dependencias.
 
@@ -36,13 +36,9 @@ Tiempo de preparación:
 - mise: **7,727 s**.
 
 ![GNU Make disponible en la imagen](img/makeDisponible.png)
-
 ![Preparación de xc](img/preparacionXc.png)
-
 ![Preparación de goyek](img/preparacionGoyek.png)
-
 ![Preparación de mise](img/preparacionMise.png)
-
 
 Tiempo de `check`, medido con Hyperfine con 3 ejecuciones de calentamiento y 30 mediciones por orden, sin pasar por la shell (opción `-N`) para que su tiempo de arranque no afecte a la medición:
 
