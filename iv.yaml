@@ -4,3 +4,5 @@ entidad: internal/riego/planificador_riego.go
 automatizar:
   fichero: Makefile
   orden: make
+
+test: internal/riego/planificador_riego_test.go

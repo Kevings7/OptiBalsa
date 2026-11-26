@@ -58,4 +58,4 @@ GNU Make ya está disponible en la imagen utilizada, por lo que no añade tiempo
 
 Las cuatro herramientas cumplen los dos criterios, y GNU Make es la que obtiene el mejor resultado en ambos.
 
-Go Modules seguirá siendo el encargado de gestionar las dependencias, y GNU Make se utilizará únicamente para lanzar las tareas `install` y `check`.
+Go Modules seguirá siendo el encargado de gestionar las dependencias, y GNU Make se utilizará únicamente para lanzar las tareas del proyecto: `install`, `check` y `test`.

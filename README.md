@@ -104,6 +104,14 @@ make check
 La tarea `check` ejecuta `gofmt -e -l .`, que comprueba la sintaxis de los ficheros Go sin modificarlos ni compilar el proyecto.
 
 
+Para ejecutar los tests:
+
+```bash
+make test
+```
+
+La tarea `test` ejecuta `go test ./...`, que lanza los tests de la lógica de negocio del paquete `internal/riego`.
+
 La comparación y justificación de la herramienta de automatización se documenta en `docs/automatizacion.md`.
 
 
