@@ -115,6 +115,9 @@ La tarea `test` ejecuta `go test ./...`, que lanza los tests de la lógica de ne
 La comparación y justificación de la herramienta de automatización se documenta en `docs/automatizacion.md`.
 
 
+La elección de las herramientas de test y cómo siguen los tests los principios F.I.R.S.T. se documenta en [docs/tests.md](docs/tests.md).
+
+
 
 # Enlaces de interés al desarrollo.
 
