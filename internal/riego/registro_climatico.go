@@ -48,3 +48,7 @@ func NuevoRegistroClimatico(temperatura, humedad, viento, radiacion, precipitaci
 	}
 	return RegistroClimatico{temperatura, humedad, viento, radiacion, precipitacion, eto}, nil
 }
+
+func (r RegistroClimatico) Necesidad() float64 {
+	return max(r.eto-r.precipitacion, 0)
+}

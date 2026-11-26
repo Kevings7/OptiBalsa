@@ -39,3 +39,20 @@ func TestNuevoRegistroClimaticoAceptaValoresValidos(t *testing.T) {
 		t.Errorf("no se esperaba error, se obtuvo %v", err)
 	}
 }
+
+func TestNecesidadEsLaEToMenosLaPrecipitacionSinSerNegativa(t *testing.T) {
+	casos := []struct {
+		descripcion           string
+		precip, eto, esperada float64
+	}{
+		{"día seco", 0, 6, 6},
+		{"día con algo de lluvia", 2, 6, 4},
+		{"día con más lluvia que ETo", 10, 6, 0},
+	}
+	for _, caso := range casos {
+		registro, _ := NuevoRegistroClimatico(30, 40, 2, 25, caso.precip, caso.eto)
+		if registro.Necesidad() != caso.esperada {
+			t.Errorf("%s: se esperaba %.2f, se obtuvo %.2f", caso.descripcion, caso.esperada, registro.Necesidad())
+		}
+	}
+}
