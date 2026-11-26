@@ -2,13 +2,15 @@ package riego
 
 import (
 	"fmt"
+	"slices"
 	"time"
 )
 
 const (
-	DiasEntreRecargas = 14
-	AniosHistorico    = 5
-	formatoFecha      = "02/01/2006"
+	DiasEntreRecargas      = 14
+	AniosHistorico         = 5
+	ProporcionMaximaDiaria = 0.5
+	formatoFecha           = "02/01/2006"
 )
 
 type ErrorPorcentajeReserva struct {
@@ -62,6 +64,19 @@ func (p *PlanificadorRiego) RegistrarClima(fecha time.Time, registro RegistroCli
 	return nil
 }
 
+func (p *PlanificadorRiego) Planificar(inicio time.Time) ([DiasEntreRecargas]PorcentajeRiego, error) {
+	var necesidades [DiasEntreRecargas]float64
+	for i := range necesidades {
+		necesidad, err := p.necesidadEsperada(soloDia(inicio).AddDate(0, 0, i))
+		if err != nil {
+			return [DiasEntreRecargas]PorcentajeRiego{}, err
+		}
+		necesidades[i] = necesidad
+	}
+	p.planDistribucion = repartir(necesidades, p.porcentajeReserva)
+	return p.planDistribucion, nil
+}
+
 func (p *PlanificadorRiego) necesidadEsperada(dia time.Time) (float64, error) {
 	var suma float64
 	var anios int
@@ -77,6 +92,37 @@ func (p *PlanificadorRiego) necesidadEsperada(dia time.Time) (float64, error) {
 		return 0, ErrorSinHistorico{Fecha: dia}
 	}
 	return suma / float64(anios), nil
+}
+
+func repartir(necesidades [DiasEntreRecargas]float64, reserva float64) [DiasEntreRecargas]PorcentajeRiego {
+	tope := reserva * ProporcionMaximaDiaria
+	plan := proporcional(necesidades, reserva)
+	excedido := slices.IndexFunc(plan[:], func(porcentaje PorcentajeRiego) bool {
+		return float64(porcentaje) > tope
+	})
+	if excedido < 0 {
+		return plan
+	}
+	resto := necesidades
+	resto[excedido] = 0
+	plan = proporcional(resto, reserva-tope)
+	plan[excedido] = PorcentajeRiego(tope)
+	return plan
+}
+
+func proporcional(necesidades [DiasEntreRecargas]float64, cantidad float64) [DiasEntreRecargas]PorcentajeRiego {
+	var plan [DiasEntreRecargas]PorcentajeRiego
+	var total float64
+	for _, necesidad := range necesidades {
+		total += necesidad
+	}
+	if total == 0 {
+		return plan
+	}
+	for i, necesidad := range necesidades {
+		plan[i] = PorcentajeRiego(cantidad * necesidad / total)
+	}
+	return plan
 }
 
 func soloDia(fecha time.Time) time.Time {
