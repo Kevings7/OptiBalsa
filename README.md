@@ -84,6 +84,41 @@ Se han añadido las primeras Historias de Usuario al proyecto junto a los primer
 
 Para la modelización se usará una metodología DDD, por su abordamiento del dominio del problema. Para ello se pueden consultar la información de expertos de cara al desarrollo en [información relativa](#datos-y-conocimiento-del-dominio). 
 
+
+# Automatización
+
+Las operaciones habituales del proyecto se ejecutan mediante GNU Make.
+
+Para instalar las dependencias del proyecto:
+
+```bash
+make install
+```
+
+Para comprobar la sintaxis de los ficheros Go:
+
+```bash
+make check
+```
+
+La tarea `check` ejecuta `gofmt -e -l .`, que comprueba la sintaxis de los ficheros Go sin modificarlos ni compilar el proyecto.
+
+
+Para ejecutar los tests:
+
+```bash
+make test
+```
+
+La tarea `test` ejecuta `go test ./...`, que lanza los tests de la lógica de negocio del paquete `internal/riego`.
+
+La comparación y justificación de la herramienta de automatización se documenta en `docs/automatizacion.md`.
+
+
+La elección de las herramientas de test y cómo siguen los tests los principios F.I.R.S.T. se documenta en [docs/tests.md](docs/tests.md).
+
+
+
 # Enlaces de interés al desarrollo.
 
 A continuación se añaden enlaces a las HUs para comprender el desarrollo. 
@@ -109,15 +144,3 @@ Enlace a descripción de las personas.
 [Cliente](/media/Cliente.jpeg)
 [Desarrollador](/media/Desarrollador.jpeg)
 [Configuración del repositorio](docs/configuracion.md)
-
-
-
-
-
-
-
-
-
-
-
-
