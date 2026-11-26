@@ -95,13 +95,13 @@ Para instalar las dependencias del proyecto:
 make install
 ```
 
-Para comprobar únicamente que los fuentes Go compilan correctamente:
+Para comprobar la sintaxis de los ficheros Go:
 
 ```bash
 make check
 ```
 
-La tarea `check` no ejecuta tests, formato ni linter; se limita a comprobar la compilación de los fuentes.
+La tarea `check` ejecuta `gofmt -e -l .`, que comprueba la sintaxis de los ficheros Go sin modificarlos ni compilar el proyecto.
 
 
 La comparación y justificación de la herramienta de automatización se documenta en `docs/automatizacion.md`.
@@ -133,15 +133,3 @@ Enlace a descripción de las personas.
 [Cliente](/media/Cliente.jpeg)
 [Desarrollador](/media/Desarrollador.jpeg)
 [Configuración del repositorio](docs/configuracion.md)
-
-
-
-
-
-
-
-
-
-
-
-
