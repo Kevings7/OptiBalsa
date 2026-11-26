@@ -7,6 +7,7 @@ import (
 
 const (
 	DiasEntreRecargas = 14
+	AniosHistorico    = 5
 	formatoFecha      = "02/01/2006"
 )
 
@@ -24,6 +25,14 @@ type ErrorFechaRepetida struct {
 
 func (e ErrorFechaRepetida) Error() string {
 	return fmt.Sprintf("ya existe un registro climático para el %s", e.Fecha.Format(formatoFecha))
+}
+
+type ErrorSinHistorico struct {
+	Fecha time.Time
+}
+
+func (e ErrorSinHistorico) Error() string {
+	return fmt.Sprintf("no hay registros de los últimos %d años para el %s", AniosHistorico, e.Fecha.Format(formatoFecha))
 }
 
 type PorcentajeRiego float64
@@ -53,6 +62,27 @@ func (p *PlanificadorRiego) RegistrarClima(fecha time.Time, registro RegistroCli
 	return nil
 }
 
+func (p *PlanificadorRiego) necesidadEsperada(dia time.Time) (float64, error) {
+	var suma float64
+	var anios int
+	for atras := 1; atras <= AniosHistorico; atras++ {
+		anterior := mismoDiaAnios(dia, atras)
+		registro, existe := p.historicoClima[anterior]
+		if existe && anterior.Month() == dia.Month() {
+			suma += registro.Necesidad()
+			anios++
+		}
+	}
+	if anios == 0 {
+		return 0, ErrorSinHistorico{Fecha: dia}
+	}
+	return suma / float64(anios), nil
+}
+
 func soloDia(fecha time.Time) time.Time {
 	return time.Date(fecha.Year(), fecha.Month(), fecha.Day(), 0, 0, 0, 0, time.UTC)
+}
+
+func mismoDiaAnios(dia time.Time, atras int) time.Time {
+	return time.Date(dia.Year()-atras, dia.Month(), dia.Day(), 0, 0, 0, 0, time.UTC)
 }

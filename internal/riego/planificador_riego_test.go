@@ -35,3 +35,28 @@ func TestRegistrarClimaRechazaFechaRepetida(t *testing.T) {
 		t.Errorf("se esperaba ErrorFechaRepetida, se obtuvo %v", err)
 	}
 }
+
+func TestNecesidadEsperadaEsLaMediaDeLaNecesidadDeCadaAnio(t *testing.T) {
+	planificador, _ := NuevoPlanificadorRiego(80)
+	seco, _ := NuevoRegistroClimatico(30, 40, 2, 25, 0, 6)
+	lluvioso, _ := NuevoRegistroClimatico(20, 90, 2, 10, 30, 6)
+	antiguo, _ := NuevoRegistroClimatico(30, 40, 2, 25, 0, 100)
+	dia := time.Date(2026, time.August, 3, 0, 0, 0, 0, time.UTC)
+	_ = planificador.RegistrarClima(dia.AddDate(-1, 0, 0), seco)
+	_ = planificador.RegistrarClima(dia.AddDate(-2, 0, 0), lluvioso)
+	_ = planificador.RegistrarClima(dia.AddDate(-AniosHistorico-1, 0, 0), antiguo)
+	necesidad, err := planificador.necesidadEsperada(dia)
+	if err != nil || necesidad != 3 {
+		t.Errorf("se esperaba una necesidad de 3.00 sin error, se obtuvo %.2f y %v", necesidad, err)
+	}
+}
+
+func TestNecesidadEsperadaFallaSinHistoricoDelDia(t *testing.T) {
+	planificador, _ := NuevoPlanificadorRiego(80)
+	dia := time.Date(2026, time.August, 3, 0, 0, 0, 0, time.UTC)
+	_, err := planificador.necesidadEsperada(dia)
+	var errHistorico ErrorSinHistorico
+	if !errors.As(err, &errHistorico) {
+		t.Errorf("se esperaba ErrorSinHistorico, se obtuvo %v", err)
+	}
+}
